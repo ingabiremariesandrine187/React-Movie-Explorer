@@ -7,7 +7,7 @@ const [favorites, setFavorites] = useState(() =>{
 useEffect(() =>{
        localStorage.setItem("favorites", JSON.stringify(favorites));
 }, [favorites]);
-const toggleFavourite = (movie) => {
+const toggleFavorite = (movie) => {
     setFavorites((prev) =>
 prev.some((fav) => fav.id === movie.id)
         ? prev.filter((fav) => fav.id !== movie.id)
