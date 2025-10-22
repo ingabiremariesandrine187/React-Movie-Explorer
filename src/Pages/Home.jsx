@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 
+
 const categories = [
   "All", "Action", "Adventure", "Anime", "Comedy", "Crime", "Drama",
   "Espionage", "Family", "Fantasy", "History", "Horror", "Legal",
@@ -11,6 +12,20 @@ const categories = [
 
 export default function Hero() {
   const [selected, setSelected] = useState("All");
+
+
+
+export default function Hero() {
+const {movies, loading} = useFetchMovies();
+const { favourite,toggleFavorite, isFavorite} = useFavorite();
+
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredMovies = movies.filter(movie => {
+    const
+  })
+
   return (
     <section className="text-center py-12">
       <h1 className="text-5xl md:text-6xl font-extrabold text-[#a63f16] mb-3">
@@ -49,3 +64,5 @@ export default function Hero() {
     </section>
   );
 }
+
+
