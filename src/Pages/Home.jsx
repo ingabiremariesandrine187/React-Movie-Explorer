@@ -1,29 +1,28 @@
 // src/components/Hero.jsx
 import { useState } from "react";
 import { Search } from "lucide-react";
-
-
-const categories = [
-  "All", "Action", "Adventure", "Anime", "Comedy", "Crime", "Drama",
-  "Espionage", "Family", "Fantasy", "History", "Horror", "Legal",
-  "Medical", "Music", "Mystery", "Romance", "Science-Fiction",
-  "Sports", "Supernatural", "Thriller", "War", "Western"
-];
-
-export default function Hero() {
-  const [selected, setSelected] = useState("All");
+import SearchBar from "../Components/SearchBar";
+import CategoryFilter from "../Components/CategoryFilter";
+import MovieCard from "../Components/MovieCard";
+import useFetchMovies from "../Hooks/useFetchMovies"
+import useFavorites from "../Hooks/useFavourite"
 
 
 
-export default function Hero() {
+
+
+export default function Home() {
 const {movies, loading} = useFetchMovies();
-const { favourite,toggleFavorite, isFavorite} = useFavorite();
+const { favorites,toggleFavorite, isFavorite} = useFavorites();
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredMovies = movies.filter(movie => {
-    const
+    const matchesSearch = movie.name.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory =
+    selectedCategory === "All" || movie.genres.includes(selectedCategory);
+    return matchesSearch && matchesCategory;
   })
 
   return (
@@ -34,33 +33,26 @@ const { favourite,toggleFavorite, isFavorite} = useFavorite();
       <p className="text-lg text-[#7b3f1d]/70 mb-10">
         Explore thousands of TV shows, search your favorites, and build your watchlist
       </p>
+      <SearchBar value={search} onChange={setSearch} />
+       <CategoryFilter selected={selectedCategory} onSelect={setSelectedCategory} />
 
-      {/* Search Bar */}
-      <div className="max-w-xl mx-auto mb-10 flex items-center bg-white rounded-full shadow px-4 py-2">
-        <Search className="text-[#a63f16]" />
-        <input
-          type="text"
-          placeholder="Search for movies..."
-          className="flex-1 px-3 py-2 outline-none bg-transparent text-[#7b3f1d]"
-        />
-      </div>
-
-      {/* Category Buttons */}
-      <div className="flex flex-wrap justify-center gap-3 px-6">
-        {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => setSelected(cat)}
-            className={`px-4 py-1 rounded-full border transition ${
-              selected === cat
-                ? "bg-[#c94e1e] text-white border-[#c94e1e]"
-                : "bg-white text-[#7b3f1d] border-[#d1b6aa] hover:bg-[#fae7dc]"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+     
+      {loading ? (
+        <p className="text-center text-gray-500">Loading movies...</p>
+      ) : filteredMovies.length === 0 ? (
+        <p className="text-center text-gray-500">No movies found.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredMovies.map(movie => (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              isFavorite={isFavorite(movie.id)}
+              onToggleFavorite={toggleFavorite}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
