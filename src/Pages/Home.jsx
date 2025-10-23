@@ -13,7 +13,7 @@ import useFavorites from "../Hooks/useFavourite"
 
 export default function Home() {
 const {movies, loading} = useFetchMovies();
-const { favorites,toggleFavorite, isFavorite} = useFavorites();
+const { Favorites,toggleFavorite, isFavorite} = useFavorites();
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");

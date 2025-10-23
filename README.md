@@ -1,18 +1,49 @@
+React Movie Explorer
 
-# React + Vite
+A responsive Movie Explorer Web App built with React + Vite, where users can browse, search, and favorite movies.
+This project demonstrates core React concepts — components, props, hooks, routing, and data fetching — making it an ideal frontend developer showcase project.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
 
-Currently, two official plugins are available:
+ Browse Movies – Displays a list of movies fetched dynamically from an external API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ Search Functionality – Search movies by title using a search bar.
 
-## React Compiler
+ Category Filter – Filter movies based on selected genres or categories.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+ Add to Favorites – Save your favorite movies (data persists with localStorage).
 
-## Expanding the ESLint configuration
+ Movie Details Page – View more information about each movie.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+ React Router Integration – Navigate smoothly between pages:
 
+/ → Home
+
+/movie/:id → Movie Details
+
+/favorites → Favorites List
+
+ Custom Hooks – Includes useFetchMovies and useFavorites for reusable logic.
+
+ Responsive & Modern UI – Styled using Tailwind CSS for a clean, elegant design.
+
+ Technologies Used
+Category	Technologies
+Frontend Framework	React (with Vite)
+Styling	Tailwind CSS
+Routing	React Router DOM
+Icons	Lucide React
+API	TVMaze API / OMDb API / Dummy JSON
+State Management	React Hooks (useState, useEffect)
+
+ 1️ Clone this repository
+git clone https://github.com/ingabiremariesandrine187/React-Movie-Explorer
+
+2 Move into the project directory
+cd react-movie-explorer
+
+ 3️ Install dependencies
+npm install
+
+ 4️ Start the development server
+npm run dev
