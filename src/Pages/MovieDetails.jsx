@@ -1,34 +1,41 @@
-import React from 'react'
-import { useParams,Link } from 'react-router-dom'
-import useFetchMovies from '../Hooks/useFetchMovies';
-function MovieDetails() {
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+export default function MovieDetails() {
   const { id } = useParams();
-  const { movies } = useFetchMovies();
-  const movie = movie.find(m =>m.id === Number(id));
-  if(!movie){
-    return <p className="text-center mt-10 text-gray-500">Movie not found</p>
-  }
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
+        const data = await res.json();
+        setMovie(data);
+      } catch (error) {
+        console.error("Failed to fetch movie details:", error);
+      }
+    };
+    fetchMovie();
+  }, [id]);
+
+  // Prevent rendering before data is available
+  if (!movie) return <p className="text-center mt-10">Loading movie details...</p>;
+
   return (
-     <div className="px-6 py-10 max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto p-6">
       <img
-        src={movie.image?.original || "https://via.placeholder.com/500x700"}
+        src={movie.image?.medium || movie.image?.original || "https://via.placeholder.com/300x400"}
         alt={movie.name}
-        className="w-full rounded-lg mb-6"
+        className="w-full max-h-[500px] object-cover rounded-xl"
       />
-      <h1 className="text-4xl font-bold text-[#c94e1e] mb-3">{movie.name}</h1>
-      <p className="text-gray-500 mb-2">{movie.genres.join(", ")}</p>
+      <h1 className="text-3xl font-bold mt-4 text-[#c94e1e]">{movie.name}</h1>
+      <p className="text-gray-600 my-3">
+        {movie.genres?.join(", ") || "No genres available"}
+      </p>
       <div
-        className="text-gray-700 mb-5"
+        className="text-gray-700 leading-relaxed"
         dangerouslySetInnerHTML={{ __html: movie.summary }}
       />
-      <Link
-        to="/"
-        className="bg-[#c94e1e] text-white px-4 py-2 rounded-md hover:bg-[#a63f16]"
-      >
-        Back to Home
-      </Link>
     </div>
-  )
+  );
 }
-
-export default MovieDetails
